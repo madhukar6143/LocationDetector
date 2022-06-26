@@ -76,8 +76,11 @@ const  start = async () =>
 
 
 
-const port= 3000;
-app.listen(port,()=>console.log(`server working on ${port}...`))
+
+
+const port = process.env.PORT || 5000;
+const host = '0.0.0.0'
+app.listen(port, host, ()=> connsole.log(`server is running on port ${port}`))
 
 
 
