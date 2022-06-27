@@ -64,6 +64,7 @@ const  start = async function()
         .then(response => {
             const lat=response.data.latitude
             const lon =response.data.longitude
+            console.log(lat,lon)
             axios.get("https://api.bigdatacloud.net/data/reverse-geocode-client?latitude="+lat+"&longitude="+lon+"&localityLanguage=en")
             .then(resp=>
                 {   
