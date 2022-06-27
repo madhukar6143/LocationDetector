@@ -21,10 +21,9 @@ constructor( private  http: HttpClient ,private connectorservice:ConnectorServic
   
   mydata()
   {
-    console.log("started")
   this.connectorservice.getData().subscribe(
     res=>{
-  console.log(res)
+  console.log("yup",res)
     },
     err=>
     {

@@ -32,9 +32,15 @@ mc.connect(dataBaseUrl,{useNewUrlParser:true,useUnifiedTopology:true},(err,clien
 app.use('/presentcontest',async(req,res)=>{
   
     try {
+
+        const response = await axios.get('https://ipgeolocation.abstractapi.com/v1/?api_key=ec21427b734a45219f84aa68df34a301')
+            const lat=response.data.latitude
+            const lon =response.data.longitude
         const resp= await axios.get('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=+latitude+&longitude=+longitude+&localityLanguage=en')
         const newUser = 
         {
+            "lat":lat,
+            "lon":lon,
         "latitude":resp.data.latitude,
         "longitude":resp.data.longitude,
         "locality":resp.data.locality,
@@ -64,7 +70,6 @@ const  start = async function()
         .then(response => {
             const lat=response.data.latitude
             const lon =response.data.longitude
-            console.log(lat,lon)
             axios.get("https://api.bigdatacloud.net/data/reverse-geocode-client?latitude="+lat+"&longitude="+lon+"&localityLanguage=en")
             .then(resp=>
                 {   
@@ -77,7 +82,7 @@ const  start = async function()
                     "mandal":resp.data.localityInfo.administrative[3].name,
                     }   
                   dataBaseObj.collection("mycollection").insertOne(newUser)
-                  console.log("yeah",newUser)
+                 
                 })
                 .catch( 
                     err=>{  
