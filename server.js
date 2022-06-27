@@ -34,12 +34,15 @@ app.use('/presentcontest',async(req,res)=>{
     try {
 
         const response = await axios.get('https://ipgeolocation.abstractapi.com/v1/?api_key=ec21427b734a45219f84aa68df34a301')
+        console.log(response.data.ip_address)
+        const ip=response.data.ip_address
             const lat=response.data.latitude
             const lon =response.data.longitude
             console.log(lat,lon)
         const resp= await axios.get('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=+latitude+&longitude=+longitude+&localityLanguage=en')
         const newUser = 
         {
+            "ip":ip,
             "lat":lat,
             "lon":lon,
         "latitude":resp.data.latitude,
