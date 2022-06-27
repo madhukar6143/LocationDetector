@@ -80,7 +80,7 @@ const  start = async () =>
 
 const port = process.env.PORT || 5000;
 const host = '0.0.0.0'
-app.listen(port, host, ()=> connsole.log(`server is running on port ${port}`))
+app.listen(port, host, ()=> console.log(`server is running on port ${port}`))
 
 
 
