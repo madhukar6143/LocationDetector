@@ -10,6 +10,7 @@ import { ConnectorService } from './connector.service';
 })
 export class AppComponent {
   title = 'LocationDetector';
+  data:any=[]
 constructor( private  http: HttpClient ,private connectorservice:ConnectorService  ) { }
   
 
@@ -23,6 +24,8 @@ constructor( private  http: HttpClient ,private connectorservice:ConnectorServic
   {
   this.connectorservice.getData().subscribe(
     res=>{
+     this.data=res
+     console.log(this.data)
   console.log("yup",res)
     },
     err=>
