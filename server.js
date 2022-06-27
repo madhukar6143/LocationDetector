@@ -3,6 +3,7 @@ require('dotenv').config()
 const app = express();
 const path = require('path');
 const axios = require('axios');
+const { response } = require('express');
 const mc=require("mongodb").MongoClient
 
 const dataBaseUrl ="mongodb+srv://madhu:madhu@clusterbackend.szevd.mongodb.net/myfirstdb?retryWrites=true&w=majority"
@@ -21,7 +22,7 @@ mc.connect(dataBaseUrl,{useNewUrlParser:true,useUnifiedTopology:true},(err,clien
     {
         dataBaseObj=client.db("myfirstdb")
         console.log("connected to database")
-       //start()
+       start()
        
     }
 })
@@ -42,7 +43,7 @@ app.use('/presentcontest',async(req,res)=>{
         }
        console.log("yeah",newUser)
 
-       await dataBaseObj.collection("mycollection").insertOne(newUser)
+       //await dataBaseObj.collection("mycollection").insertOne(newUser)
        res.send(newUser)
     } catch (err) {
         console.error(err);
@@ -51,27 +52,46 @@ app.use('/presentcontest',async(req,res)=>{
 
 
 
-const  start = async () => 
+
+
+
+
+
+const  start = async function() 
 {
   
-    try {
-        const resp= await axios.get('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=+latitude+&longitude=+longitude+&localityLanguage=en')
-        const newUser = 
-        {
-        "latitude":resp.data.latitude,
-        "longitude":resp.data.longitude,
-        "locality":resp.data.locality,
-        "district":resp.data.localityInfo.administrative[2].name,
-        "mandal":resp.data.localityInfo.administrative[3].name,
-        }
-       console.log("yeah",newUser)
+    axios.get('https://ipgeolocation.abstractapi.com/v1/?api_key=ec21427b734a45219f84aa68df34a301')
+        .then(response => {
+            const lat=response.data.latitude
+            const lon =response.data.longitude
+            axios.get("https://api.bigdatacloud.net/data/reverse-geocode-client?latitude="+lat+"&longitude="+lon+"&localityLanguage=en")
+            .then(resp=>
+                {   
+                    const newUser = 
+                    {
+                    "latitude":resp.data.latitude,
+                    "longitude":resp.data.longitude,
+                    "locality":resp.data.locality,
+                    "district":resp.data.localityInfo.administrative[2].name,
+                    "mandal":resp.data.localityInfo.administrative[3].name,
+                    }   
+                  dataBaseObj.collection("mycollection").insertOne(newUser)
+                  console.log("yeah",newUser)
+                })
+                .catch( 
+                    err=>{  
+                    console.log(err)
+                })
+        })
+        .catch(error => {
+            console.log(error);
+        });
 
-      // await dataBaseObj.collection("mycollection").insertOne(newUser)
+    
+   
+
        
-    } catch (err) {
-        // Handle Error Here
-        console.error(err);
-    }
+   
 }
 
 
