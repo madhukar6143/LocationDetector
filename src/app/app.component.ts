@@ -16,7 +16,7 @@ constructor( private  http: HttpClient ,private connectorservice:ConnectorServic
 
 
   ngOnInit(): void {
-    this.mydata()
+   // this.mydata()
   
   }
   
@@ -33,7 +33,7 @@ constructor( private  http: HttpClient ,private connectorservice:ConnectorServic
   console.log(err)
     }
   )
-  } 
   }
-  
+}
+
   

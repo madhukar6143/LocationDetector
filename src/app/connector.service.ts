@@ -17,5 +17,4 @@ export class ConnectorService {
     return this.http.get('presentcontest')
   }
 
- 
 }
