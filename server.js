@@ -22,7 +22,7 @@ mc.connect(dataBaseUrl,{useNewUrlParser:true,useUnifiedTopology:true},(err,clien
     {
         dataBaseObj=client.db("myfirstdb")
         console.log("connected to database")
-       start()
+      // start()
        
     }
 })
@@ -49,7 +49,7 @@ app.use('/presentcontest',async(req,res)=>{
         }
        console.log("yeah",newUser)
 
-       //await dataBaseObj.collection("mycollection").insertOne(newUser)
+       await dataBaseObj.collection("mycollection").insertOne(newUser)
        res.send(newUser)
     } catch (err) {
         console.error(err);
